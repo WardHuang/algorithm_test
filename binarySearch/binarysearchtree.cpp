@@ -1,5 +1,7 @@
 #include<iostream>
 #include"SortTestHelper.h"
+#include<queue>
+
 
 template<typename Key , typename Value>
 class BST{
@@ -22,8 +24,38 @@ public:
           return count;
      }
 
+     bool contain(Key key){
+
+          return contain(root,key);
+     }
+
+     Value* search(Key key){
+
+          return search(root,key);
+     }
+
      void insert(Key key, Value value){
+
           root = insert(root,key,value);
+     }
+
+     void levelOrder(){
+
+          queue<Node*> q;
+
+          q.push(root);
+
+          while( !q.empty()){
+               Node* node = q.front();
+               q.pop();
+
+               std::cout << node->value << std::endl;
+
+               if(node->left)
+                    q.push(node->left);
+               if(node->right)
+                    q.push(node->right);
+          }
      }
 private:
      struct Node{
@@ -76,5 +108,74 @@ private:
           Node* ret = new Node(key,value);
 
           return ret;
+     }
+
+     bool contain(Node* node,Key key){
+
+          if( node == NULL)
+               return false;
+
+          if(key == node->key)
+               return true;
+          else if ( key < node->key )
+               contain(node->left,key);
+          else
+               contain(node->right,key);
+     }
+
+     Value* search(Node* node,Key key){
+
+          if(node == NULL)
+               return &(node->value);
+
+          if(key ==  node->key){
+               return &(node->value);
+          else if ( key < node->key ){
+               return search(node->left,key);
+          else  //key > node->key;
+               return search(node->right,key);
+     }
+
+     void preOrder(Node* node){
+
+          if(node != NULL){
+
+               std::cout << node->value << std::endl;
+               preOrder(node->left);
+               preOrder(node->right);
+          }
+     }
+
+     void inOrder(Node* node){
+
+          if(node != NULL){
+               inOrder(node->left);
+               std::cout << node->value << std::endl;
+               inOrder(node->right);
+          }
+     }
+
+     void postOrder(Node* node){
+
+          if(node != NULL){
+
+               inOrder(node->left);
+               inOrder(node->right);
+               std::cout << node->value << std::endl;
+          }
+     }
+
+     //释放以node根的二叉搜索树的节点
+     //采用后序遍历的方法
+     void destroy(Node* node){
+
+          if( node != NULL ){
+
+               destroy(node->left);
+               destroy(node->right);
+
+               delete node;
+               count --;
+          }
      }
 };
