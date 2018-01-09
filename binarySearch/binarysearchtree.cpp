@@ -13,7 +13,7 @@ public:
      }
 
      ~BST(){
-          //TODO:
+          destroy(root);
      }
 
      bool isEmpty(){
@@ -57,6 +57,18 @@ public:
                     q.push(node->right);
           }
      }
+
+     void removeMin(){
+
+          if(root)
+               removeMin(root);
+     }
+
+     void removeMax(){
+
+          if(root)
+               removeMax(root);
+     }
 private:
      struct Node{
           Node* left;
@@ -89,7 +101,7 @@ private:
                root->key = key;
                root->value = value;
           }
-          return node;
+          return root;
      }
 //Without Recursive!
      Node* wr_insert(Node* root,Key key,Value value){
@@ -177,5 +189,44 @@ private:
                delete node;
                count --;
           }
+     }
+
+     Node* removeMin(Node* node){
+
+          if(node->left == NULL){
+
+               Node* leftnode = node->right;
+               count --;
+               delete node;
+               return leftnode;
+          }
+
+          node->left = removeMin(node->left);
+          return node;
+     }
+
+     Node* removeMax(Node* node){
+
+          if(node->right == NULL){
+
+               Node* rightnode = node->left;
+               count --;
+               delete node;
+               return rightnode;
+          }
+
+          node->right = removeMax(node->right);
+          return node;
+     }
+
+     void removeMaxWithoutRecursive(Node* node){
+
+          Node* newnode = node;
+
+          while( newnode->right != NULL )
+               newnode = newnode->right;
+
+          delete newnode;
+          count --;
      }
 };
