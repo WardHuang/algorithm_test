@@ -60,6 +60,11 @@ public:
           }
      }
 
+     void preOrder(){
+
+          preOrder(root);
+     }
+
      void removeMin(){
 
           if(root)
@@ -115,24 +120,28 @@ private:
           if( node == NULL )
                return NULL;
 
-          if( node->key < key)
-               node->left = remove(node->left,key);
-          else if( node->key > key)
+          if( node->key < key){
                node->right = remove(node->right,key);
+               return node;
+          }
+          else if( node->key > key){
+               node->left = remove(node->left,key);
+               return node;
+          }
           else { //node->key == key
 
                if(node->right ==NULL){
-                    Node* rightnode = node->right;
-                    delete node;
-                    count --;
-                    return rightnode;
-               }
-
-               if(node->left == NULL){
                     Node* leftnode = node->left;
                     delete node;
                     count --;
                     return leftnode;
+               }
+
+               if(node->left == NULL){
+                    Node* rightnode = node->right;
+                    delete node;
+                    count --;
+                    return rightnode;
                }
 
                Node* newnode = new Node(minmum (node->right));
@@ -321,20 +330,25 @@ void shuffle(int arr[],int n)
 int main()
 {
      srand(time(NULL));
-     BST<int,int> bst = BST<int,int>();
-
      int n = 10;
+
+     BST<int,int> bst = BST<int,int>();
      for( int i = 0 ; i < n ; i++){
-          int x = rand()%n;
+          int x = i;
           int value = x;
           bst.insert(x,value);
      }
 
+     bst.preOrder();
+     std::cout << "++++++++++++++++++++++++++++++++++++" <<std::endl;
      int order[n];
      for(int i = 0 ; i < n ; i++)
           order[i] = i;
 
      shuffle(order,n);
+
+     for(int i = 0; i < n ; i++)
+          std::cout << order[i] << std::endl;
 
      for(int i = 0;i < n ; i++ ){
           if(bst.contain(order[i])){
