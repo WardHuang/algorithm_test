@@ -1,6 +1,8 @@
 #include<iostream>
 #include"SortTestHelper.h"
 #include<queue>
+#include<ctime>
+#include<cassert>
 
 
 template<typename Key , typename Value>
@@ -38,7 +40,7 @@ public:
 
           root = insert(root,key,value);
      }
-
+     //Breathed-first Search .
      void levelOrder(){
 
           queue<Node*> q;
@@ -69,6 +71,25 @@ public:
           if(root)
                removeMax(root);
      }
+
+     Key minmum(){
+          assert( count != 0);
+          Node* minnode = minmum(root);
+          return minnode->key;
+     }
+
+     Key maxmum(){
+          assert( count != 0 );
+
+          Node* maxnode = maxmum(root);
+          return maxnode->key;
+     }
+
+     void remove(Key key){
+
+          if(root)
+               root = remove(root,key);
+     }
 private:
      struct Node{
           Node* left;
@@ -80,6 +101,49 @@ private:
                this->key = key;
                this->value = value;
                this->left = this->right = NULL;
+          }
+          Node(Node* node){
+               this->key = node->key;
+               this->value = node->value;
+               this->left = node->left;
+               this->right = node->right;
+          }
+     };
+
+     Node* remove(Node* node, Key key){
+
+          if( node == NULL )
+               return NULL;
+
+          if( node->key < key)
+               node->left = remove(node->left,key);
+          else if( node->key > key)
+               node->right = remove(node->right,key);
+          else { //node->key == key
+
+               if(node->right ==NULL){
+                    Node* rightnode = node->right;
+                    delete node;
+                    count --;
+                    return rightnode;
+               }
+
+               if(node->left == NULL){
+                    Node* leftnode = node->left;
+                    delete node;
+                    count --;
+                    return leftnode;
+               }
+
+               Node* newnode = new Node(minmum (node->right));
+               count ++;
+
+               newnode->right = removeMin(node->right);
+               newnode->left = node->left;
+
+               delete node;
+               count --;
+               return newnode;
           }
      }
      int count;
@@ -140,9 +204,9 @@ private:
           if(node == NULL)
                return &(node->value);
 
-          if(key ==  node->key){
+          if(key ==  node->key)
                return &(node->value);
-          else if ( key < node->key ){
+          else if ( key < node->key )
                return search(node->left,key);
           else  //key > node->key;
                return search(node->right,key);
@@ -191,6 +255,21 @@ private:
           }
      }
 
+     Node* minmum(Node* node){
+
+          if(node == NULL)
+               return NULL;
+          return minmum(node->left);
+     }
+
+     Node* maxmum(Node* node){
+
+          if( node == NULL )
+               return NULL;
+
+          return maxmum(node->right);
+     }
+
      Node* removeMin(Node* node){
 
           if(node->left == NULL){
@@ -230,3 +309,40 @@ private:
           count --;
      }
 };
+
+void shuffle(int arr[],int n)
+{
+     srand(time(NULL));
+     for(int i=0; i < n ; i++){
+          int x = rand()% (i+1);
+          swap(arr[i],arr[x]);
+     }
+}
+int main()
+{
+     srand(time(NULL));
+     BST<int,int> bst = BST<int,int>();
+
+     int n = 10;
+     for( int i = 0 ; i < n ; i++){
+          int x = rand()%n;
+          int value = x;
+          bst.insert(x,value);
+     }
+
+     int order[n];
+     for(int i = 0 ; i < n ; i++)
+          order[i] = i;
+
+     shuffle(order,n);
+
+     for(int i = 0;i < n ; i++ ){
+          if(bst.contain(order[i])){
+               bst.remove(order[i]);
+               std::cout << "After remove bst size : " << bst.size() << std::endl;
+          }
+     }
+
+     std::cout << " end === size = " << bst.size() << std::endl;
+     return 0;
+}
