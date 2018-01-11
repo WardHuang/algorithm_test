@@ -31,8 +31,11 @@ namespace UF{
           int find(int p){
                assert( p >= 0 && p <= count );
 
-               while(p != parent[p])
+               while(p != parent[p]){
+                    //p = parent[p];
+                    parent[p] = parent[parent[p]];
                     p = parent[p];
+               }
 
                return p;
           }
