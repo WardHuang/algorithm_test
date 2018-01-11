@@ -8,7 +8,7 @@
 #include <iostream>
 #include <ctime>
 #include <stdlib.h>
-#include "unionfind.h"
+#include "unionfindwithnode.h"
 
 using namespace std;
 
@@ -25,15 +25,17 @@ namespace UnionFindTestHelper{
         time_t startTime = clock();
 
         // 进行n次操作, 每次随机选择两个元素进行合并操作
+        Node* a = new Node;
+        Node* b = new Node;
         for( int i = 0 ; i < n ; i ++ ){
-            int a = rand()%n;
-            int b = rand()%n;
+            a->value = rand()%n;
+            b->value = rand()%n;
             uf.unionElementsBaseSize(a,b);
         }
         // 再进行n次操作, 每次随机选择两个元素, 查询他们是否同属一个集合
         for(int i = 0 ; i < n ; i ++ ){
-            int a = rand()%n;
-            int b = rand()%n;
+            a.value = rand()%n;
+            b.value = rand()%n;
             uf.isConnect(a,b);
         }
         time_t endTime = clock();
