@@ -10,7 +10,7 @@ class DenseGraph{
 private:
      int n,m; //n description node,m description line;
      bool direct; //是否为有向图
-     vector<vector<bool>> g; //图中具体的数据
+     vector<vector<bool> > g; //图中具体的数据
 public:
      DenseGraph(int n, bool direct){
           assert( n >= 0 );
@@ -18,7 +18,7 @@ public:
           this->m = 0;
           this->direct = direct;
           //g is n*n matrix 初始为没有任何边
-          g = vector<vector<bool>>(n,vector<bool>(n,false));
+          g = vector<vector<bool> >(n,vector<bool>(n,false));
      }
 
      ~DenseGraph(){
@@ -35,7 +35,7 @@ public:
           if( hasEdge( v,m ) )
                return;
           g[v][w] = true;     //@ 
-          if( !derect )
+          if( !direct )
                g[w][v] = true;  //检查是不是有向图 若是 @ 处设置即可。
 
           m++;
@@ -54,7 +54,8 @@ public:
           int v;
           DenseGraph &G;
      public:
-          adjIterator(DenseGraph &graph, int v):G(graph),this->v(v){
+          adjIterator(DenseGraph &graph, int v):G(graph){
+               this->v = v;
                index = -1;
           }
 
@@ -74,7 +75,7 @@ public:
           }
 
           bool end(){
-               return index >= G.v();
+               return index >= G.V();
           }
      };
 };

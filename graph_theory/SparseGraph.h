@@ -43,20 +43,32 @@ public:
                     return true;
           return false;
      }
+     // 显示图的信息
+    void show(){
+
+        for( int i = 0 ; i < n ; i ++ ){
+            cout<<"vertex "<<i<<":\t";
+            for( int j = 0 ; j < g[i].size() ; j ++ )
+                cout<<g[i][j]<<"\t";
+            cout<<endl;
+        }
+    }
+
 private:
      int n;
      int m;
      bool directed;
-     vector< vecotr<int>> g;
+     vector<vector<int> > g;
 
-
+public:
      class adjIterator{
      private:
           SparseGraph &G;
           int v;
           int index;  //迭代到什么位置
      public:
-          adjIterator( SparseGraph &graph, int v):G(graph),this->v(v){
+          adjIterator( SparseGraph &graph, int v):G(graph){
+               this->v = v;
                this->index = 0;
           }
 

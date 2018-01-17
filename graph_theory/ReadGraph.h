@@ -3,7 +3,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
-#include<sstring>
+#include<sstream>
 #include<cassert>
 
 using namespace std;
@@ -13,7 +13,7 @@ class ReadGraph{
 private:
 
 public:
-     ReadGraph(Graph &graph,const string filename){
+     ReadGraph(Graph &graph,const string &filename){
           ifstream file(filename);
           string line;
           int V , E;

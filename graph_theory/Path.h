@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<vector>
+#include<stack>
 
 using namespace std;
 
@@ -63,11 +64,11 @@ public:
 
           while( p != -1 ){
 
-               s.push[p];
+               s.push(p);
                p = from[p];
           }
 
-          vc.clear();
+          vec.clear();
 
           while( !s.empty() ){
 
@@ -76,13 +77,13 @@ public:
           }
      }
 
-     void showpath( int w ){
+     void showPath( int w ){
 
           assert( hasPath(w) );
 
           vector<int> vec;
 
-          path(w,&vec);
+          path(w,vec);
 
           for(int i = 0 ; i < vec.size() ; i++ ){
                cout << vec[i];
