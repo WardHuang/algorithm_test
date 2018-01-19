@@ -30,7 +30,7 @@ public:
      //add a line to graph
      void addEdge(int v,int w){
           assert( v >= 0 && v < n);
-          assert( w >= 0 && w < m);
+          assert( w >= 0 && w < n);
 
           if( hasEdge( v,m ) )
                return;

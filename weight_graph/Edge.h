@@ -26,7 +26,7 @@ public:
           return x == a ? b : a ;
      }
 
-     friend ostream& operator<<(ostream& os , const Edge& e){
+     friend std::ostream& operator<<(std::ostream& os , const Edge& e){
           os << e.a << "-" << e.b << "-" << e.weight;
           return os;
      }

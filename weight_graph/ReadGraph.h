@@ -39,7 +39,7 @@ public:
 
                assert( a >= 0 && a < V );
                assert( b >= 0 && b < E );
-
+//               std::cout << b << endl;
                graph.addEdge(a,b,wt);
           }
      }

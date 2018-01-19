@@ -4,16 +4,16 @@
 #include"Edge.h"
 using namespace std;
 
-template <typename weight>
+template <typename Weight>
 class SparseGraph{
 public:
      SparseGraph(int n, bool directed){
+          assert(n >= 0);
           this->n = n;
           this->m = 0;
           this->directed = directed;
 
-          for( int i = 0 ; i < n ; i++)
-               g.push_back( vector<Edge<weight> *>() );
+          g = vector<vector<Edge<Weight>*> >(n,vector<Edge<Weight>*>());
      }
 
      ~SparseGraph(){
@@ -22,14 +22,14 @@ public:
      int V () { return n; }
      int E () { return m; }
 
-     void addEdge( int v , int w ){
+     void addEdge( int v , int w ,Weight weight){
 
           assert( v >= 0 && v < n );
           assert( w >= 0 && w < n );
 
-          g[v].push_back(new Edge<weight>(v,w,weight));
+          g[v].push_back(new Edge<Weight>(v,w,weight));
           if( !directed )
-               g[w].push_back(new Edge<weight>(w,v,weight));
+               g[w].push_back(new Edge<Weight>(w,v,weight));
           m++;
      }
 
@@ -59,7 +59,7 @@ private:
      int n;
      int m;
      bool directed;
-     vector<vector<int> > g;
+     vector<vector<Edge<Weight>* > > g;
 
 public:
      class adjIterator{
@@ -73,14 +73,14 @@ public:
                this->index = 0;
           }
 
-          Edge<weight>* begin() {
+          Edge<Weight>* begin() {
                index = 0;
                if( G.g[v].size() )
                     return G.g[v][index];
                return NULL;
           }
 
-          Edge<weight>* next(){
+          Edge<Weight>* next(){
                index++;
                if( index < G.g[v].size())
                     return G.g[v][index];
